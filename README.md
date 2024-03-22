@@ -1,35 +1,46 @@
-Personal build of Suckless' Dmenu
+# dmenu
 
-### Applied Patches
-  * Line Height
+Fork of Suckless' [dmenu](https://tools.suckless.org/dmenu/)
 
-That's it.
+## Building a deb package
 
------------------
+Because dmenu is a simple program, `equivs-build` is used to build
+the deb package, rather than the traditional `debuild` command.
 
-dmenu - dynamic menu
-====================
-dmenu is an efficient dynamic menu for X.
+Before building, ensure that the following packages are installed:
 
+* equivs
+* libx11-dev
+* libxinerama-dev
+* libxft-dev
+* libfreetype6-dev
 
-Requirements
-------------
+Then, from dmenu's directory, run (as a non-root user):
+
+```
+$ make deb
+```
+
+## Manual Install
+
+### Requirements
+
 In order to build dmenu you need the Xlib header files.
 
+### Installation
 
-Installation
-------------
 Edit config.mk to match your local setup (dmenu is installed into
 the /usr/local namespace by default).
 
 Afterwards enter the following command to build and install dmenu
 (if necessary as root):
 
-    make clean install
+```
+make clean install
+```
 
+### Running dmenu
 
-Running dmenu
--------------
 See the man page for details.
 
 -----
