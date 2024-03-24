@@ -1,8 +1,6 @@
 # dmenu version
 VERSION = 4.9
 
-include ${TOPDIR}/usr/share/X11/mk/xprogs.mk
-
 # paths
 PREFIX = /usr
 MANPREFIX = $(PREFIX)/share/man
@@ -26,9 +24,11 @@ LIBS = -L$(X11LIB) -lX11 $(XINERAMALIBS) $(FREETYPELIBS)
 
 # flags
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_POSIX_C_SOURCE=200809L -DVERSION=\"$(VERSION)\" \
-	   ${HARDENING_CPPFLAGS} $(XINERAMAFLAGS)
-CFLAGS   = -std=c99 -pedantic -Wall ${O_FLAG} ${CFLAGS_LTO} $(INCS) $(CPPFLAGS) ${HARDENING_CFLAGS}
-LDFLAGS  = ${LDFLAGS_LTO} ${HARDENING_LDFLAGS} $(LIBS)
+	   -D_FORTIFY_SOURCE=2 $(XINERAMAFLAGS)
+CFLAGS   = -std=c99 -pedantic -Wall -O2 -flto=thin $(INCS) $(CPPFLAGS) \
+	   -Wformat -Wformat-security -fstack-clash-protection -fstack-protector-strong \
+	   -fcf-protection
+LDFLAGS  = -flto=thin -Wl,-O2 -Wl,-z,relro,-z,now -Wl,--as-needed $(LIBS)
 
 # compiler and linker
 CC = clang
