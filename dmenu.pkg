@@ -11,5 +11,6 @@ Files: dmenu /usr/bin/
  stest.1 /usr/share/man/man1/
 Readme: README.md
 Copyright: LICENSE
+Changelog: changelog
 Description: dmenu
  This is Ragnarok's fork of dmenu.
