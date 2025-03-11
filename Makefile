@@ -6,13 +6,7 @@ include config.mk
 SRC = drw.c dmenu.c stest.c util.c
 OBJ = $(SRC:.c=.o)
 
-all: options dmenu stest
-
-options:
-	@echo dmenu build options:
-	@echo "CFLAGS   = $(CFLAGS)"
-	@echo "LDFLAGS  = $(LDFLAGS)"
-	@echo "CC       = $(CC)"
+all: dmenu stest
 
 .c.o:
 	$(CC) -c $(CFLAGS) $<
@@ -33,12 +27,10 @@ clean:
 
 dist: clean
 	mkdir -p dmenu-$(VERSION)
-	cp LICENSE Makefile README arg.h config.def.h config.mk dmenu.1\
-		drw.h util.h dmenu_path dmenu_run stest.1 $(SRC)\
+	cp LICENSE Makefile README.md arg.h config.def.h config.mk dmenu.1 \
+		drw.h util.h dmenu_path dmenu_run stest.1 $(SRC) \
 		dmenu-$(VERSION)
-	tar -cf dmenu-$(VERSION).tar dmenu-$(VERSION)
-	gzip dmenu-$(VERSION).tar
-	rm -rf dmenu-$(VERSION)
+	tar -czvf dmenu-$(VERSION).tgz dmenu-$(VERSION)
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -53,9 +45,6 @@ install: all
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/stest.1
 
-deb: all
-	/usr/bin/equivs-build dmenu.pkg
-
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/dmenu\
 		$(DESTDIR)$(PREFIX)/bin/dmenu_path\
@@ -64,4 +53,4 @@ uninstall:
 		$(DESTDIR)$(MANPREFIX)/man1/dmenu.1\
 		$(DESTDIR)$(MANPREFIX)/man1/stest.1
 
-.PHONY: all options clean dist install uninstall
+.PHONY: all clean dist install uninstall
